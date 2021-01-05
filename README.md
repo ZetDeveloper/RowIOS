@@ -1,7 +1,7 @@
 # iOS Evaluation Project
 
 
-![App](https://media4.giphy.com/media/bTfykL3yrsmXms3zys/giphy.gif)
+![App](https://media2.giphy.com/media/kWConfQFa39qbZELIP/giphy.gif)
 
 In this folder you will find a base project that you will have to complete and that will serve as evaluation of your knowledge and skills when developing iOS applications with Swift.
 
