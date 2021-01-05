@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SwiftUI
 
 class VJourney: UIView {
     
-    private let data: [Int]
+    private var data: RowModel
+    private var collection: UICollectionView?
     
-    init(data: [Int]) {
+    init(data: RowModel) {
         self.data = data
         super.init(frame: .zero)
         
@@ -19,16 +21,16 @@ class VJourney: UIView {
         
         let flow = UICollectionViewFlowLayoutForDynamicHeightCells()
         flow.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        let collection = UICollectionView(frame: bounds, collectionViewLayout: flow)
-        collection.alwaysBounceVertical = true
-        collection.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collection.backgroundColor = .clear
-        collection.clipsToBounds = true
-        collection.dataSource = self
-        collection.showsHorizontalScrollIndicator = false
-        collection.register(UICollectionViewEmptyCell.self, forCellWithReuseIdentifier: "UICollectionViewEmptyCell")
+        collection = UICollectionView(frame: bounds, collectionViewLayout: flow)
+        collection?.alwaysBounceVertical = true
+        collection?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        collection?.backgroundColor = .clear
+        collection?.clipsToBounds = true
+        collection?.dataSource = self
+        collection?.showsHorizontalScrollIndicator = false
+        collection?.register(RowContainer<AnyView>.self, forCellWithReuseIdentifier: "RowContainer")
         
-        addSubview(collection)
+        addSubview(collection!)
     }
     
     required init?(coder: NSCoder) {
@@ -37,6 +39,12 @@ class VJourney: UIView {
     
 }
 
+extension VJourney {
+    func fill(data: RowModel) {
+        self.data = data
+        self.collection?.reloadData()
+    }
+}
 
 //MARK: - UICollectionViewDataSource
 
@@ -47,9 +55,8 @@ extension VJourney: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = data[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UICollectionViewEmptyCell", for: indexPath)
-        cell.backgroundColor = UIColor.init(white: CGFloat(item)/256, alpha: 1)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RowContainer", for: indexPath) as! RowContainer<AnyView>
+        cell.host(AnyView(RowUIView(model: data[indexPath.row])))
         return cell
     }
     
