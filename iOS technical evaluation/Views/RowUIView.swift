@@ -9,57 +9,70 @@ import SwiftUI
 
 
 struct RowUIView: View {
+    @State private var showingAlert = false
+    @State var model: RowModelElement?
+    
     var body: some View {
         
-        HStack(alignment: .top, spacing: 20) {
-            VStack(alignment: .leading, spacing: 0) {
-            Text("1")
-                .font(.system(size: 30))
-                .foregroundColor(.white)
-                .background(Image("DayNumber"))
-                .padding(.leading, 10)
-                .padding(.top, 10)
+        Button(action: { self.showingAlert = true }) {
+            
+            HStack(alignment: .top, spacing: 20) {
+                VStack(spacing: 0) {
+                    Text("\(model?.day ?? 0)")
+                        .font(.system(size: 20))
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    
+                    
+                }
+                .background(Image("DayNumber").resizable())
+                .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .padding(10)
                 
+                
+                
+                VStack(alignment: .leading){
+                    Text("Day \(model?.day.asWord ?? "")".uppercased())
+                        .font(.system(size: 10))
+                        .bold()
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(Color.gray.opacity(0.8))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 10)
+                    
+                    
+                    Text(model?.title ?? "")
+                        .font(.system(size: 12))
+                        .bold()
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(Color.black.opacity(0.8))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 5)
+                    
+                    Text(model?.subtitle ?? "")
+                        .font(.system(size: 12))
+                        
+                        .bold()
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(Color.gray.opacity(0.8))
+                    
+                    
+                }
+                .padding(.bottom, 5)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .colorMultiply(Color.gray.opacity(0.8))
+                    .padding()
                 
             }
-            .padding()
-            
-            
-            VStack(alignment: .leading){
-                Text("Lorem Ipsum es simplemente texto de relleno de la industria de la impresión y la composición tipográfica. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde la década de 1500, cuando un impresor desconocido tomó una galera de tipos y la mezcló para hacer un libro de muestras tipo. Ha sobrevivido no solo a cinco siglos, sino también al salto a la composición tipográfica electrónica, permaneciendo esencialmente sin cambios. Se popularizó en la década de 1960 con el lanzamiento de hojas de Letraset que contienen pasajes de Lorem Ipsum y, más recientemente, con software de autoedición como Aldus PageMaker que incluye versiones de Lorem Ipsum.")
-                    .font(.system(size: 10))
-                    .bold()
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.gray.opacity(0.8))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 20)
-                    
-                
-                Text("Lorem Ipsum es simplemente texto de relleno de la industria de la impresión y la composición tipográfica. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde la década de 1500, cuando un impresor desconocido tomó una galera de tipos y la mezcló para hacer un libro de muestras tipo. Ha sobrevivido no solo a cinco siglos, sino también al salto a la composición tipográfica electrónica, permaneciendo esencialmente sin cambios. Se popularizó en la década de 1960 con el lanzamiento de hojas de Letraset que contienen pasajes de Lorem Ipsum y, más recientemente, con software de autoedición como Aldus PageMaker que incluye versiones de Lorem Ipsum.")
-                    .font(.system(size: 12))
-                    .bold()
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.black.opacity(0.8))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 8)
-                
-                Text("Lorem Ipsum es simplemente texto de relleno de la industria de la impresión y la composición tipográfica. Lorem Ipsum ha sido el texto de relleno estándar de la industria desde la década de 1500, cuando un impresor desconocido tomó una galera de tipos y la mezcló para hacer un libro de muestras tipo. Ha sobrevivido no solo a cinco siglos, sino también al salto a la composición tipográfica electrónica, permaneciendo esencialmente sin cambios. Se popularizó en la década de 1960 con el lanzamiento de hojas de Letraset que contienen pasajes de Lorem Ipsum y, más recientemente, con software de autoedición como Aldus PageMaker que incluye versiones de Lorem Ipsum.")
-                    .font(.system(size: 12))
-                    .bold()
-                    .multilineTextAlignment(.leading)
-                    .foregroundColor(Color.gray.opacity(0.8))
-                    .padding(.top, 3)
-                    
-            }
-            
-            Spacer()
-            
-            Image(systemName: "chevron.right")
-                .padding()
+            .background(Color.white)
             
         }
-        
-        
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text(self.model?.title ?? ""), message: Text(self.model?.subtitle ?? ""), dismissButton: .default(Text("OK!")))
+        }
     }
 }
 
