@@ -12,6 +12,14 @@ struct RowUIView: View {
     @State private var showingAlert = false
     @State var model: RowModelElement?
     
+    var image: some View {
+        #if DEV
+        return Image("DayNumber").resizable().colorMultiply(Color.green.opacity(0.6))
+        #else
+        return Image("DayNumber").resizable()
+        #endif
+    }
+    
     var body: some View {
         
         Button(action: { self.showingAlert = true }) {
@@ -25,7 +33,7 @@ struct RowUIView: View {
                     
                     
                 }
-                .background(Image("DayNumber").resizable())
+                .background(image)
                 .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 .padding(10)
                 

@@ -14,7 +14,12 @@ class CNavigation: UINavigationController {
         
         let navigationAppareance = UINavigationBarAppearance()
         navigationAppareance.configureWithOpaqueBackground()
+        #if DEV
+        navigationAppareance.backgroundImage = UIImage(named: "Gradient2")
+        #else
         navigationAppareance.backgroundImage = UIImage(named: "Gradient")
+        #endif
+      
         
         navigationAppareance.largeTitleTextAttributes = [
             .foregroundColor : UIColor.white,
